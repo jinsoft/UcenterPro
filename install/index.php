@@ -9,7 +9,8 @@ $Id: index.php 1059 2011-03-01 07:25:09Z monkey $
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 @set_time_limit(1000);
-set_magic_quotes_runtime(0);
+//set_magic_quotes_runtime(0);
+ini_set('magic_quotes_runtime ',0);
 
 define('IN_COMSENZ', TRUE);
 define('ROOT_PATH', dirname(__FILE__).'/../');
@@ -17,7 +18,7 @@ define('ROOT_PATH', dirname(__FILE__).'/../');
 require ROOT_PATH.'./release/release.php';
 require ROOT_PATH.'./install/var.inc.php';
 require ROOT_PATH.'./install/lang.inc.php';
-require ROOT_PATH.'./install/db.class.php';
+require ROOT_PATH.'./install/dbi.class.php';
 require ROOT_PATH.'./install/func.inc.php';
 
 file_exists(ROOT_PATH.'./install/extvar.inc.php') && require ROOT_PATH.'./install/extvar.inc.php';
@@ -39,9 +40,7 @@ if(empty($method)) {
 	show_msg('method_undefined', $method, 0);
 }
 
-if(!ini_get('short_open_tag')) {
-	show_msg('short_open_tag_invalid', '', 0);
-} elseif(file_exists($lockfile)) {
+if(file_exists($lockfile)) {
 	show_msg('install_locked', '', 0);
 } elseif(!class_exists('dbstuff')) {
 	show_msg('database_nonexistence', '', 0);
@@ -114,9 +113,9 @@ if($method == 'show_license') {
 		if(empty($dbname)) {
 			show_msg('dbname_invalid', $dbname, 0);
 		} else {
-			if(!$link = @mysql_connect($dbhost, $dbuser, $dbpw)) {
-				$errno = mysql_errno($link);
-				$error = mysql_error($link);
+			if(!$link = @mysqli_connect($dbhost, $dbuser, $dbpw)) {
+				$errno = mysqli_connect_errno($link);
+				$error = mysqli_error($link);
 				if($errno == 1045) {
 					show_msg('database_errno_1045', $error, 0);
 				} elseif($errno == 2003) {
@@ -125,16 +124,16 @@ if($method == 'show_license') {
 					show_msg('database_connect_error', $error, 0);
 				}
 			}
-			if(mysql_get_server_info() > '4.1') {
-				mysql_query("CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET ".DBCHARSET, $link);
+			if(mysqli_get_server_info($link) > '4.1') {
+				mysqli_query($link,"CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET ".DBCHARSET);
 			} else {
-				mysql_query("CREATE DATABASE IF NOT EXISTS `$dbname`", $link);
+				mysqli_query($link,"CREATE DATABASE IF NOT EXISTS `$dbname`");
 			}
 
-			if(mysql_errno()) {
-				show_msg('database_errno_1044', mysql_error(), 0);
+			if(mysqli_connect_errno()) {
+				show_msg('database_errno_1044', mysqli_error(), 0);
 			}
-			mysql_close($link);
+			mysqli_close($link);
 		}
 
 		if(strpos($tablepre, '.') !== false || intval($tablepre{0})) {
@@ -154,7 +153,7 @@ if($method == 'show_license') {
 			show_install();
 		}
 
-		runquery($sql);
+		runquery($sql,$db->link);
 
 		VIEW_OFF && show_msg('initdbresult_succ');
 
