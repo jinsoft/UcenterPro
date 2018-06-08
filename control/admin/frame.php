@@ -8,7 +8,6 @@
 */
 
 !defined('IN_UC') && exit('Access Denied');
-
 class control extends adminbase {
 
 	var $members;

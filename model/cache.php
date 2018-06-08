@@ -46,6 +46,7 @@ class cachemodel {
 				foreach((array)$modules as $m) {
 					$method = "_get_$m";
 					$s .= '$_CACHE[\''.$m.'\'] = '.var_export($this->$method(), TRUE).";\r\n";
+					exit($s);
 				}
 				$s .= "\r\n?>";
 				@file_put_contents(UC_DATADIR."./cache/$cachefile.php", $s);

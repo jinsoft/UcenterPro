@@ -14,7 +14,10 @@
  
  
  
- 
+###   更改所有的mysql 成mysqli
+
+*  ```/api/dbbak.php```
+*   
  
  
  
@@ -33,3 +36,8 @@
  $func_items = array('mysqli_connect', 'gethostbyname', 'file_get_contents', 'xml_parser_create');
 
 ```
+
+
+### /model/base.php
+
+* 95  ``` require_once UC_ROOT.'lib/dbi.class.php'; ```

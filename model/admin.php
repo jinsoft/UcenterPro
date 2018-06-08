@@ -19,6 +19,7 @@ class adminbase extends base {
 
 	function adminbase() {
 		parent::__construct();
+
 		$this->cookie_status = isset($_COOKIE['sid']) ? 1 : 0;
 		$sid = $this->cookie_status ? getgpc('sid', 'C') : rawurlencode(getgpc('sid', 'R'));
 		$this->view->sid = $this->sid_decode($sid) ? $sid : '';
@@ -26,12 +27,14 @@ class adminbase extends base {
 		$this->view->assign('iframe', getgpc('iframe'));
 		$a = getgpc('a');
 		if(!(getgpc('m') =='user' && ($a == 'login' || $a == 'logout'))) {
+
 			$this->check_priv();
 		}
 	}
 
 	function check_priv() {
 		$username = $this->sid_decode($this->view->sid);
+
 		if(empty($username)) {
 			header('Location: '.UC_API.'/admin.php?m=user&a=login&iframe='.getgpc('iframe', 'G').($this->cookie_status ? '' : '&sid='.$this->view->sid));
 			exit;

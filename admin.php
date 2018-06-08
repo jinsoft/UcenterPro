@@ -41,6 +41,8 @@ $a = empty($a) ? 'index' : $a;
 
 define('RELEASE_ROOT', '');
 
+
+
 if(in_array($m, array('admin', 'app', 'badword', 'cache', 'db', 'domain', 'frame', 'log', 'note', 'feed', 'mail', 'setting', 'user', 'credit', 'seccode', 'tool', 'plugin', 'pm'))) {
 	include UC_ROOT."control/admin/$m.php";
 	$control = new control();
@@ -55,7 +57,7 @@ if(in_array($m, array('admin', 'app', 'badword', 'cache', 'db', 'domain', 'frame
 } else {
 	exit('Module not found!');
 }
-
+exit('1');
 $mtime = explode(' ', microtime());
 $endtime = $mtime[1] + $mtime[0];
 //echo '<script>document.getElementById(\'debug_time\').innerHTML = \''.number_format($endtime - $starttime, 5).'\'</script>'."\n";
