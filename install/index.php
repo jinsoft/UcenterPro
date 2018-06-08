@@ -131,7 +131,7 @@ if($method == 'show_license') {
 			}
 
 			if(mysqli_connect_errno()) {
-				show_msg('database_errno_1044', mysqli_error(), 0);
+				show_msg('database_errno_1044', mysqli_error($link), 0);
 			}
 			mysqli_close($link);
 		}

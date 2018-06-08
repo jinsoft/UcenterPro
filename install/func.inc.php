@@ -63,9 +63,9 @@ function check_db($dbhost, $dbuser, $dbpw, $dbname, $tablepre)
     if (!function_exists('mysqli_connect')) {
         show_msg('undefine_func', 'mysqli_connect', 0);
     }
-    if (!$connect = mysqli_connect($dbhost, $dbuser, $dbpw)) {
-        $errno = mysqli_errno();
-        $error = mysqli_error();
+    if (!$connect = @mysqli_connect($dbhost, $dbuser, $dbpw)) {
+        $errno = mysqli_connect_errno();
+        $error = mysqli_connect_errno();
         if ($errno == 1045) {
             show_msg('database_errno_1045', $error, 0);
         } elseif ($errno == 2003) {
@@ -654,7 +654,7 @@ function generate_key()
 {
     $random = random(32);
     $info = md5($_SERVER['SERVER_SOFTWARE'] . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_PORT'] . $_SERVER['HTTP_USER_AGENT'] . time());
-    $return = '';
+    $return = [];
     for ($i = 0; $i < 64; $i++) {
         $p = intval($i / 2);
         $return[$i] = $i % 2 ? $random[$p] : $info[$p];
