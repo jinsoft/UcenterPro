@@ -121,7 +121,7 @@ class ucserver_db
 
     function result($query, $row)
     {
-        $query = @mysqli_result($query, $row);
+        $query = mysqli_fetch_row($query, $row);
         return $query;
     }
 
