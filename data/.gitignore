@@ -1,6 +1,7 @@
 config.inc.php
 install.lock
 upgrade.lock
+updatetime.lock
 /cache
 /logs
 /tmp
