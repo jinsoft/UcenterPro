@@ -70,7 +70,6 @@ class base
 
     function init_cache()
     {
-        var_dump($this->cache('settings'));eixt;
         $this->settings = $this->cache('settings');
         $this->cache['apps'] = $this->cache('apps');
         if (PHP_VERSION > '5.1') {
@@ -277,7 +276,6 @@ class base
         $return = array();
         $sqladd = $k ? "WHERE k IN (" . $this->implode($k) . ")" : '';
         $settings = $this->db->fetch_all("SELECT * FROM " . UC_DBTABLEPRE . "settings $sqladd");
-        exit('1');
         if (is_array($settings)) {
             foreach ($settings as $arr) {
                 $return[$arr['k']] = $decode ? unserialize($arr['v']) : $arr['v'];

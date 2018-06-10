@@ -151,23 +151,23 @@ class template {
 		return $tag.$url;
 	}
 
-	function __destruct() {
-		if($_COOKIE['sid']) {
-			return;
-		}
-		$sid = rawurlencode($this->sid);
-		$searcharray = array(
-			"/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/ies",
-			"/(\<form.+?\>)/is"
-		);
-		$replacearray = array(
-			"\$this->_transsid('\\3','<a\\1href=\\2')",
-			"\\1\n<input type=\"hidden\" name=\"sid\" value=\"".rawurldecode(rawurldecode(rawurldecode($sid)))."\" />"
-		);
-		$content = preg_replace($searcharray, $replacearray, ob_get_contents());
-		ob_end_clean();
-		echo $content;
-	}
+//	function __destruct() {
+//		if($_COOKIE['sid']) {
+//			return;
+//		}
+//		$sid = rawurlencode($this->sid);
+//		$searcharray = array(
+//			"/\<a(\s*[^\>]+\s*)href\=([\"|\']?)([^\"\'\s]+)/ies",
+//			"/(\<form.+?\>)/is"
+//		);
+//		$replacearray = array(
+//			"\$this->_transsid('\\3','<a\\1href=\\2')",
+//			"\\1\n<input type=\"hidden\" name=\"sid\" value=\"".rawurldecode(rawurldecode(rawurldecode($sid)))."\" />"
+//		);
+//		$content = preg_replace($searcharray, $replacearray, ob_get_contents());
+//		ob_end_clean();
+//		echo $content;
+//	}
 
 }
 
